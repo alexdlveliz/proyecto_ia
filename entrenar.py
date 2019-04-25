@@ -1,6 +1,6 @@
 #-*-coding=utf-8-*-
 """algoritmo de entrenamiento para la neurona, debe
-   distinguir lo que es un mango y lo que no"""
+   distinguir diferentes tipos de mangos"""
 import sys
 import os
 from tensorflow.python.keras.preprocessing.image import ImageDataGenerator
@@ -14,11 +14,11 @@ K.clear_session()
 datos_entrenamiento = "./data/entrenamiento"
 datos_validacion = "./data/validacion"
 #PARÁMETROS
-epocas = 20
+epocas = 500
 altura, longitud = 100, 100
 batch_size = 32
-pasos = 1000
-pasos_validacion = 200
+pasos = 1500
+pasos_validacion = 500
 filtrosConv1 = 32
 filtrosConv2 = 64
 tamanio_filtro1 = (3,3)
@@ -29,53 +29,56 @@ lr = 0.005
 #PROCESAMIENTO DE IMÁGENES
 entrenamiento_datagen = ImageDataGenerator(
     rescale = 1./255, #normalización
-    shear_range = 0.3,
-    zoom_range = 0.3,
+    shear_range = 0.2,
+    zoom_range = 0.2,
     horizontal_flip = True) #todo esto para dar lugar a diferencias entre las imágenes
-data_generator = entrenamiento_datagen.flow_from_directory(datos_entrenamiento, target_size=(150,150), batch_size=32, class_mode='sparse')
-class_dictionary = data_generator.class_indices
-print class_dictionary
+#data_generator = entrenamiento_datagen.flow_from_directory(datos_entrenamiento, target_size=(150,150), batch_size=32, class_mode='sparse')
+#class_dictionary = data_generator.class_indices
+#print class_dictionary #esto para saber qué código le pertenece a la clasificación
 validacion_datagen = ImageDataGenerator(
-    rescale = 1/255)
+    rescale = 1./255)
 imagen_entrenamiento = entrenamiento_datagen.flow_from_directory(
     datos_entrenamiento,
     target_size = (altura,longitud),
     batch_size = batch_size,
     class_mode = 'categorical') #buscará datos de entrenamiento y las procesa
+class_dictionary = imagen_entrenamiento.class_indices
+print class_dictionary #esto para saber qué código le pertenece a la clasificación
 imagen_validacion = validacion_datagen.flow_from_directory(
     datos_validacion,
     target_size = (altura,longitud),
     batch_size = batch_size,
     class_mode = 'categorical')
 #CREACIÓN DE LA NEURONA
-cnn = Sequential()
-cnn.add(Convolution2D(
+neurona = Sequential()
+neurona.add(Convolution2D(
     filtrosConv1,
     tamanio_filtro1,
     padding='same',
-    input_shape=(altura,longitud,3),
+    input_shape=(altura,longitud,3),#CAMBIO
     activation='relu'))
-cnn.add(MaxPooling2D(pool_size=tamanio_pool))
-cnn.add(Convolution2D(
+neurona.add(MaxPooling2D(pool_size=tamanio_pool))
+neurona.add(Convolution2D(
     filtrosConv2,
     tamanio_filtro2,
     padding='same',
     activation='relu'))
-cnn.add(MaxPooling2D(pool_size=tamanio_pool))
+neurona.add(MaxPooling2D(pool_size=tamanio_pool))
 #INICIO DE LA CLASIFICACIÓN
-cnn.add(Flatten())
-cnn.add(Dense(256,activation='relu'))
-cnn.add(Dropout(0.5)) #activa el 50% de las neuronas en
+neurona.add(Flatten())
+neurona.add(Dense(256,activation='relu'))
+neurona.add(Dropout(0.7)) #activa el 70% de las neuronas en
                       #cada paso, para que la IA tome
                       #caminos más diversos en la resolución
-cnn.add(Dense(50,activation='relu')) #capa adicional, más exactitud
-cnn.add(Dense(clases,activation='softmax')) #capa de salida, dará probabilidades
-cnn.compile(
+neurona.add(Dense(50,activation='relu')) #capa adicional, más exactitud
+neurona.add(Dense(70,activation='relu'))
+neurona.add(Dense(clases,activation='softmax')) #capa de salida, dará probabilidades
+neurona.compile(
     loss='categorical_crossentropy',
     optimizer=optimizers.Adam(lr=lr),
     metrics=['accuracy']) #compilación de la IA, optimizado con Adam
 #ENTRENAMIENTO (se viene lo chido)
-cnn.fit_generator(
+neurona.fit_generator(
     imagen_entrenamiento,
     steps_per_epoch=pasos,
     epochs=epocas,
@@ -85,5 +88,5 @@ cnn.fit_generator(
 dir = "./modelo/"
 if not os.path.exists(dir):
     os.mkdir(dir)
-cnn.save("./modelo/modelo.h5")
-cnn.save_weights("./modelo/pesos.h5")
+neurona.save("./modelo/modelo.h5")
+neurona.save_weights("./modelo/pesos.h5")
