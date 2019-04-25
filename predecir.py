@@ -15,8 +15,10 @@ cnn.load_weights(pesos)
 def respuestas(argumento):
     switcher = {
     0: "inmaduro",
-    1: "maduro",
-    2: "pasado"
+    1: "intermedio",
+    2: "maduro",
+    3: "no mango",
+    4: "pasado"
     }
     return switcher.get(argumento, "inválido")
 def predecir(file):
@@ -27,4 +29,4 @@ def predecir(file):
     resultado = arreglo[0] #dimensión 1 tiene la predicción
     respuesta = np.argmax(resultado)
     print respuestas(respuesta)
-predecir("mango inmaduro.jpeg")
+predecir("no mango 2.jpg")

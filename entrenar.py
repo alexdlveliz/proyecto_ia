@@ -14,7 +14,7 @@ K.clear_session()
 datos_entrenamiento = "./data/entrenamiento"
 datos_validacion = "./data/validacion"
 #PARÁMETROS
-epocas = 500
+epocas = 20
 altura, longitud = 100, 100
 batch_size = 32
 pasos = 1500
@@ -24,17 +24,14 @@ filtrosConv2 = 64
 tamanio_filtro1 = (3,3)
 tamanio_filtro2 = (2,2)
 tamanio_pool = (2,2)
-clases = 3 #numero de categorías que tengo
-lr = 0.005
+clases = 5 #numero de categorías que tengo
+lr = 0.0005
 #PROCESAMIENTO DE IMÁGENES
 entrenamiento_datagen = ImageDataGenerator(
     rescale = 1./255, #normalización
     shear_range = 0.2,
     zoom_range = 0.2,
     horizontal_flip = True) #todo esto para dar lugar a diferencias entre las imágenes
-#data_generator = entrenamiento_datagen.flow_from_directory(datos_entrenamiento, target_size=(150,150), batch_size=32, class_mode='sparse')
-#class_dictionary = data_generator.class_indices
-#print class_dictionary #esto para saber qué código le pertenece a la clasificación
 validacion_datagen = ImageDataGenerator(
     rescale = 1./255)
 imagen_entrenamiento = entrenamiento_datagen.flow_from_directory(
@@ -67,11 +64,10 @@ neurona.add(MaxPooling2D(pool_size=tamanio_pool))
 #INICIO DE LA CLASIFICACIÓN
 neurona.add(Flatten())
 neurona.add(Dense(256,activation='relu'))
-neurona.add(Dropout(0.7)) #activa el 70% de las neuronas en
+neurona.add(Dropout(0.5)) #activa el 70% de las neuronas en
                       #cada paso, para que la IA tome
                       #caminos más diversos en la resolución
-neurona.add(Dense(50,activation='relu')) #capa adicional, más exactitud
-neurona.add(Dense(70,activation='relu'))
+neurona.add(Dense(50,activation='relu'))
 neurona.add(Dense(clases,activation='softmax')) #capa de salida, dará probabilidades
 neurona.compile(
     loss='categorical_crossentropy',
