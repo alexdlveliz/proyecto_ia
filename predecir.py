@@ -33,10 +33,10 @@ def predecir(file):
     respuesta = np.argmax(resultado)
     #print respuestas(respuesta)
     return respuestas(respuesta)
-imagen1 = predecir("mango1.jpg")
-print "imagen 1: ", imagen1
-imagen2 = predecir("mango2.jpg")
-print "imagen 2: ", imagen2
+imagen1 = predecir("fresa1.jpg")
+#print "imagen 1: ", imagen1
+imagen2 = predecir("fresa2.jpg")
+#print "imagen 2: ", imagen2
 if(imagen1=="inmaduro buena calidad" and imagen2=="inmaduro buena calidad"): print "inmaduro buena calidad"
 elif(imagen1=="inmaduro mala calidad" and imagen2=="inmaduro mala calidad"): print "inmaduro mala calidad"
 elif(imagen1=="inmaduro mala calidad" and imagen2=="inmaduro buena calidad"): print "inmaduro mala calidad"
@@ -62,6 +62,8 @@ elif(imagen1=="inmaduro mala calidad" and imagen2=="maduro mala calidad"): print
 elif(imagen2=="inmaduro mala calidad" and imagen1=="maduro mala calidad"): print "intermedio mala calidad"
 elif(imagen1=="intermedio buena calidad" and imagen2=="maduro buena calidad"): print "maduro buena calidad"
 elif(imagen2=="intermedio mala calidad" and imagen1=="maduro buena calidad"): print "maduro mala calidad"
+elif(imagen1=="intermedio mala calidad" and imagen2=="intermedio buena calidad"): print "intermedio mala calidad"
+elif(imagen2=="intermedio mala calidad" and imagen1=="intermedio buena calidad"): print "intermedio mala calidad"
 elif(imagen1=="maduro buena calidad" and imagen2=="intermedio buena calidad"): print "maduro buena calidad"
 elif(imagen2=="maduro mala calidad" and imagen1=="intermedio buena calidad"): print "maduro mala calidad"
 
@@ -80,3 +82,4 @@ elif(imagen1=="intermedio mala calidad" and imagen2=="inmaduro buena calidad"): 
 elif(imagen1=="intermedio buena calidad" and imagen2=="inmaduro mala calidad"): print "inmaduro mala calidad"
 elif(imagen1=="pasado" and imagen2=="inmaduro mala calidad"): print "pasado"
 elif(imagen2=="pasado" and imagen1=="inmaduro buena calidad"): print "pasado"
+elif(imagen1=="no mango" or imagen2=="no mango"): print "no mango"
