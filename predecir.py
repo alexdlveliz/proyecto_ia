@@ -28,5 +28,14 @@ def predecir(file):
     arreglo = cnn.predict(x) #retorna arreglo de 2 dimensiones
     resultado = arreglo[0] #dimensión 1 tiene la predicción
     respuesta = np.argmax(resultado)
-    print respuestas(respuesta)
-predecir("no mango 2.jpg")
+    #print respuestas(respuesta)
+    return respuestas(respuesta)
+imagen1 = predecir("mango1.jpg")
+print "imagen 1: ", imagen1
+imagen2 = predecir("mango2.jpg")
+print "imagen 2: ", imagen2
+if(imagen1=="inmaduro" or imagen2=="inmaduro"): print "es inmaduro"
+elif(imagen1=="pasado" or imagen2=="pasado"): print "es pasado"
+else: print "es maduro"
+#respuesta = predecir("mango2.jpg")
+#print respuesta

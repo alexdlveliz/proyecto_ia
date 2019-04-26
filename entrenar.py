@@ -14,7 +14,7 @@ K.clear_session()
 datos_entrenamiento = "./data/entrenamiento"
 datos_validacion = "./data/validacion"
 #PARÁMETROS
-epocas = 20
+epocas = 19
 altura, longitud = 100, 100
 batch_size = 32
 pasos = 1500
