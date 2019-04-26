@@ -1,6 +1,7 @@
 #-*-coding=utf-8-*-
 """algoritmo de entrenamiento para la neurona, debe
-   distinguir diferentes tipos de mangos"""
+   distinguir diferentes tipos de mangos
+   autores: Nahomi Torres & Alex de León"""
 import sys
 import os
 from tensorflow.python.keras.preprocessing.image import ImageDataGenerator
