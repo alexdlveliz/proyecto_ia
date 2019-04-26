@@ -1,2 +1,3 @@
 #files
-./modelo/
+./modelo/modelo.h5
+./modelo/pesos.h5
