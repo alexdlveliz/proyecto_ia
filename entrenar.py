@@ -15,7 +15,7 @@ K.clear_session()
 datos_entrenamiento = "./data/entrenamiento"
 datos_validacion = "./data/validacion"
 #PARÁMETROS
-epocas = 19
+epocas = 20
 altura, longitud = 100, 100
 batch_size = 32
 pasos = 1500
@@ -25,7 +25,7 @@ filtrosConv2 = 64
 tamanio_filtro1 = (3,3)
 tamanio_filtro2 = (2,2)
 tamanio_pool = (2,2)
-clases = 5 #numero de categorías que tengo
+clases = 8 #numero de categorías que tengo
 lr = 0.0005
 #PROCESAMIENTO DE IMÁGENES
 entrenamiento_datagen = ImageDataGenerator(
